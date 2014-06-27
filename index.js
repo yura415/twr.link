@@ -31,7 +31,7 @@ module.exports = exports = (function (rq) {
         res.end(response);
     }
 
-    http.createServer(function (req, res) {
+    var srv = http.createServer(function (req, res) {
         if (req.url.indexOf('/api') === 0) {
             var url = req.url.substr(1)
                 , slash = url.indexOf('/')
@@ -119,7 +119,11 @@ module.exports = exports = (function (rq) {
                 });
             }).resume();
         }
-    }).listen(cfg["port"]);
+    });
+    srv.on('error', function (err) {
+        throw err;
+    });
+    srv.listen(cfg["port"]);
     console.log("server listens on port", cfg["port"]);
 
     return Key;
