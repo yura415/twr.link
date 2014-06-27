@@ -1,0 +1,49 @@
+.container {
+    width: 80%;
+    height: 60%;
+    margin: 0 auto;
+    padding: 10%;
+}
+
+* {
+    border: 0;
+    border-radius: 0;
+}
+
+input {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+}
+
+.short-url {
+    width: 10em;
+    height: 1.5em;
+}
+
+html, body {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 150%;
+}
+
+hr {
+    border: 1px inset;
+}
+
+.group {
+    width: 100%;
+    display: inline-table;
+    vertical-align: middle;
+}
+
+.group * {
+    height: 2em;
+}
+
+#input-url {
+    width: 90%;
+}
+
+#btn-shorten {
+    width: 10%;
+}

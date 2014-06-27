@@ -2,18 +2,32 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Yet another url shortener.">
     <title>twr.link - yet another url shortener</title>
     <link rel="stylesheet" type="text/css"
-          href="//cdn.jsdelivr.net/g/bootstrap@3.1.1(bootstrap.min.css+bootstrap-theme.min.css)"/>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+          href="//cdn.jsdelivr.net/normalize/3.0.1/normalize.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css"
+          href="css/style.css"/>
 </head>
 <body>
-<script src="//cdn.jsdelivr.net/g/jquery@2.1.0(jquery.min.js),bootstrap@3.1.1(bootstrap.min.js)"></script>
-<script src="assets/js/"></script>
+<div class="container">
+    <div class="group">
+        <input type="text" id="input-url" placeholder="Paste URL to shorten..."/>
+        <button type="button" id="btn-shorten">Go!</button>
+    </div>
+    <hr/>
+    <label>
+        <input type="checkbox" id="check-one-time"/> One time
+    </label>|
+    <label>
+        <input type="checkbox" id="check-remove-referrer"/> Anonymize
+    </label>
+    <hr/>
+    <div id="shortened"></div>
+</div>
+<script src="js/ajaxlib.js"></script>
+<script src="js/frontend.js"></script>
 </body>
 </html>
