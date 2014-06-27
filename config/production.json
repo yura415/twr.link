@@ -1,0 +1,9 @@
+{
+    "directory_name": "urls",
+    "url_maxlength": 128,
+    "port": 80,
+    "api_port": 8080,
+    "hostname": "twr.link",
+    "key_length": 5,
+    "excluded_keys": ["favicon.ico"]
+}
