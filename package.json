@@ -30,9 +30,9 @@
     },
     "homepage": "https://github.com/yura415/twr.link",
     "dependencies": {
-        "MD5": "^1.2.1",
-        "mkdirp": "^0.5.0",
-        "node-static": "^0.7.3"
+        "MD5": "1.2.1",
+        "mkdirp": "0.5.0",
+        "node-static": "0.7.3"
     },
     "subdomain": "gichco-twr.link",
     "domains": [
