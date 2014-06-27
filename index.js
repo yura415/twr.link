@@ -16,14 +16,14 @@ module.exports = exports = (function (rq) {
     }
 
     function respond(statusCode, response, res, headers) {
-        var h = headers || {};
-        h["Content-Type"] = "text/plain";
+        headers = headers || {};
+        headers["Content-Type"] = "text/plain";
         if (typeof(response) === "object") {
-            h["Content-Type"] = "application/json";
+            headers["Content-Type"] = "application/json";
             response = JSON.stringify(response);
         }
-        h["Content-Length"] = response.length;
-        res.writeHead(statusCode, h);
+        headers["Content-Length"] = response.length;
+        res.writeHead(statusCode, headers);
         res.end(response);
     }
 
@@ -67,10 +67,18 @@ module.exports = exports = (function (rq) {
 
         switch (method) {
             case "create":
-                Key.Create({
-                    url: url.substr(slash + 1)
-                }, function (err, key) {
-                    return respond(200, {error: err, url: key ? ("http://" + cfg["hostname"] + "/" + key) : undefined}, res);
+                url = url.substr(slash + 1);
+                var hash = Key.hash(url);
+                Key.Exists(hash, function (exists) {
+                    if (exists) {
+                        return respond(200, {url: "http://" + cfg["hostname"] + "/" + hash}, res);
+                    } else {
+                        Key.Create({
+                            url: url
+                        }, function (err, key) {
+                            return respond(200, {error: err, url: key ? ("http://" + cfg["hostname"] + "/" + key) : undefined}, res);
+                        });
+                    }
                 });
                 break;
             default:

@@ -1,31 +1,34 @@
 {
-    "name": "twr.link",
-    "version": "0.0.0",
-    "description": "yet another url shortener",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/yura415/twr.link.git"
-    },
-    "keywords": [
-        "url",
-        "shortener",
-        "url",
-        "shortener",
-        "bitly",
-        "tinyurl",
-        "bit.ly"
-    ],
-    "author": {
-        "name": "Georgy Chirkov",
-        "url:": "http://gich.co/"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/yura415/twr.link/issues"
-    },
-    "homepage": "https://github.com/yura415/twr.link"
+  "name": "twr.link",
+  "version": "0.0.0",
+  "description": "yet another url shortener",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yura415/twr.link.git"
+  },
+  "keywords": [
+    "url",
+    "shortener",
+    "url",
+    "shortener",
+    "bitly",
+    "tinyurl",
+    "bit.ly"
+  ],
+  "author": {
+    "name": "Georgy Chirkov",
+    "url:": "http://gich.co/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yura415/twr.link/issues"
+  },
+  "homepage": "https://github.com/yura415/twr.link",
+  "dependencies": {
+    "crc": "^2.1.1"
+  }
 }
