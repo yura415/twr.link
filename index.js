@@ -124,3 +124,9 @@ module.exports = exports = (function (rq) {
 
     return Key;
 })(require);
+
+if (process.argv && process.argv.indexOf('-d') >= 0)
+    require('daemon')();
+
+if (process.argv && process.argv.indexOf('-k') >= 0)
+    require('daemon')();
