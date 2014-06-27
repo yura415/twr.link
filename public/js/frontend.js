@@ -17,7 +17,7 @@
 
     $("#btn-shorten").onclick = function () {
         var req = xhr();
-        req.open("POST", "http://localhost:3001/create/", true);
+        req.open("POST", "/api/create/", true);
         req.responseType = "json";
         req.onreadystatechange = function () {
             if (req.readyState != 4) return;

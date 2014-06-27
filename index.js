@@ -33,7 +33,7 @@ module.exports = exports = (function (rq) {
 
     http.createServer(function (req, res) {
         if (req.url.indexOf('/api') === 0) {
-            var url = req.url.substr(1)
+            var url = req.url.substr(5)
                 , slash = url.indexOf('/')
                 , method = url.substr(0, slash)
                 , postData = "";
