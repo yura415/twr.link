@@ -17,12 +17,13 @@ module.exports = exports = (function (rq) {
 
     function respond(statusCode, response, res, headers) {
         headers = headers || {};
-        headers["Content-Type"] = "text/plain";
+        headers["Content-Type"] = headers["Content-Type"] || "text/plain";
         if (typeof(response) === "object") {
             headers["Content-Type"] = "application/json";
             response = JSON.stringify(response);
         }
-        headers["Content-Length"] = response.length;
+        headers["Content-Length"] = headers["Content-Length"] || response.length;
+        headers["Access-Control-Allow-Origin"] = "*";
         res.writeHead(statusCode, headers);
         res.end(response);
     }
@@ -41,8 +42,16 @@ module.exports = exports = (function (rq) {
                         console.log(err);
                         return respond(200, err.toString(), res);
                     } else {
-                        respond(302, null, res, {'Location': data.url});
-                        if (data['expiry'] && data['expiry'] >= curDate) {
+                        if (data.anonymize) {
+                            respond(200, cfg["redirect-template"].replace("_%_", data.url), res, {
+                                'Content-Type': 'text/html; charset=utf-8'
+                            });
+                        } else {
+                            respond(302, null, res, {
+                                'Location': data.url
+                            });
+                        }
+                        if (data['expiry'] && data['expiry'] <= curDate) {
                             Key.Remove(key, function (err) {
                                 if (err) {
                                     console.log(err);
@@ -63,29 +72,47 @@ module.exports = exports = (function (rq) {
     http.createServer(function (req, res) {
         var url = req.url.substr(1)
             , slash = url.indexOf('/')
-            , method = url.substr(0, slash);
-
-        switch (method) {
-            case "create":
-                url = url.substr(slash + 1);
-                var hash = Key.hash(url);
-                Key.Exists(hash, function (exists) {
-                    if (exists) {
-                        return respond(200, {url: "http://" + cfg["hostname"] + "/" + hash}, res);
-                    } else {
-                        Key.Create({
-                            url: url
-                        }, function (err, key) {
-                            return respond(200, {error: err, url: key ? ("http://" + cfg["hostname"] + "/" + key) : undefined}, res);
-                        });
-                    }
-                });
-                break;
-            default:
-                return respond(200, {error: "wrong method"}, res);
-                break;
+            , method = url.substr(0, slash)
+            , postData = "";
+        if (req.method == 'OPTIONS') {
+            return respond(200, null, res);
         }
+        if (req.method != 'POST') {
+            return respond(405, {error: "Method not supported"}, res);
+        }
+        req.on('data', function (chunk) {
+            postData += chunk.toString();
+        });
+        req.on('end', function () {
+            switch (method) {
+                case "create":
+                    try {
+                        postData = JSON.parse(postData);
+                    } catch (e) {
+                        console.log(e);
+                        return respond(200, {error: e.toString()}, res);
+                    }
+                    url = postData.url;
+                    var key = Key.random();
+                    Key.Create({
+                        url: url,
+                        expiry: postData.expiry,
+                        anonymize: postData.anonymize
+                    }, function (err, key) {
+                        return respond(200, {
+                            error: err,
+                            url: key ? ("http://" + cfg["hostname"] + "/" + key) : undefined,
+                            originalUrl: url
+                        }, res);
+                    });
+                    break;
+                default:
+                    return respond(200, {error: "wrong method"}, res);
+                    break;
+            }
+        });
     }).listen(cfg["api_port"]);
     console.log("api server listens on port", cfg["api_port"]);
 
+    return Key;
 })(require);
