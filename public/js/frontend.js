@@ -35,10 +35,12 @@ Storage.prototype.getObject = function (key) {
 
     var storage = {
         put: function (key, value) {
-            localStorage && localStorage.setObject(key, value);
+            if (localStorage) {
+                return localStorage.setObject(key, value);
+            }
             var x = c();
             x[key] = value;
-            !localStorage && (document.cookie = "x=" + JSON.stringify(x));
+            document.cookie = "x=" + JSON.stringify(x);
         },
         get: function (key) {
             return localStorage ? localStorage.getObject(key) : c()[key];
