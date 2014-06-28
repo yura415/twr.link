@@ -51,3 +51,9 @@ hr {
 #btn-shorten {
     width: 10%;
 }
+
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
