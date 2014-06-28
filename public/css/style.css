@@ -48,11 +48,13 @@ hr {
 
 #btn-shorten {
     width: 10%;
-    float:right;
+    float: right;
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
+    background-color: white;
+    background-color: rgba(255, 255, 255, 0.75);
 }
