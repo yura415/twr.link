@@ -19,7 +19,8 @@ module.exports = exports = (function (rq) {
             , urlignoreFile = __dirname + '/.urlignore'
             , ignored = fs.existsSync(urlignoreFile) ? fs.readFileSync(urlignoreFile).toString().trim().split('\n') : [];
         ignored = ignored.map(function (x) {
-            return md5(x).substr(4).toString();
+            x = md5(x);
+            return x.substr(0, 2) + path.sep + x.substr(2, 2) + path.sep + x.substr(4);
         });
         var rec = function (dir, f) {
             if (!fs.existsSync(dir))return;
@@ -33,8 +34,15 @@ module.exports = exports = (function (rq) {
             }
         };
         rec(__dirname + "/" + cfg["directory_name"], function (x, cb) {
-            var stats = fs.statSync(x);
-            if (stats.isFile() && ignored.indexOf(path.basename(x)) < 0) {
+            var stats = fs.statSync(x)
+                , ignore = false;
+            for (var i = 0; i < ignored.length; i++) {
+                if (x.indexOf(ignored[i]) >= 0) {
+                    ignore = true;
+                    return;
+                }
+            }
+            if (stats.isFile() && !ignore) {
                 return fs.unlinkSync(x);
             }
             cb(x);
