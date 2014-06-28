@@ -36,8 +36,6 @@ hr {
 
 .group {
     width: 100%;
-    display: inline-table;
-    vertical-align: middle;
 }
 
 .group * {
@@ -45,11 +43,12 @@ hr {
 }
 
 #input-url {
-    width: 90%;
+    width: 100%;
 }
 
 #btn-shorten {
     width: 10%;
+    float:right;
 }
 
 .footer {

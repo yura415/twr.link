@@ -14,8 +14,10 @@
 <body>
 <div class="container">
     <form class="group" id="form-shorten">
-        <input type="text" id="input-url" placeholder="Paste URL to shorten..." autocomplete="off"/>
         <button type="button" id="btn-shorten" data-default="Go!" data-loading="..."></button>
+        <div style="overflow: hidden;">
+            <input type="text" id="input-url" placeholder="Paste URL to shorten..." autocomplete="off"/>
+        </div>
     </form>
     <hr/>
     <label>
@@ -28,7 +30,8 @@
     <div id="shortened"></div>
 </div>
 <div class="footer">
-    <a href="http://twr.link/d0j38" target="_blank">@github</a>, <a href="http://twr.link/yiwuq" target="_blank">public api</a>.
+    <a href="http://twr.link/d0j38" target="_blank">@github</a>, <a href="http://twr.link/yiwuq" target="_blank">public
+    api</a>.
 </div>
 <script src="js/ajaxlib.js"></script>
 <script src="js/frontend.js"></script>
