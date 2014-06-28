@@ -16,6 +16,10 @@ input {
     line-height: 1em;
 }
 
+button.loading {
+
+}
+
 .short-url {
     width: 10em;
     height: 1.5em;

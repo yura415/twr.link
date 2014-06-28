@@ -13,9 +13,13 @@
         , url = $("#input-url")
         , oneTime = $("#check-one-time")
         , anon = $("#check-remove-referrer")
+        , gobtn = $("#btn-shorten")
+        , form = $("#form-shorten")
         , xhr = Xhr;
+    gobtn.innerHTML = gobtn.getAttribute("data-default");
 
-    $("#btn-shorten").onclick = function () {
+    gobtn.onclick = form.onsubmit = function (e) {
+        e.preventDefault();
         var req = xhr();
         req.open("POST", "/api/create/", true);
         req.responseType = "json";
@@ -24,6 +28,10 @@
             if (req.status != 200 && req.status != 304) {
                 return;
             }
+            gobtn.removeAttribute("disabled");
+            gobtn.className = "";
+            gobtn.innerHTML = gobtn.getAttribute("data-default");
+            url.value = "";
             var data = req.response
                 , div = d.createElement("div");
             if (!data.error) {
@@ -37,8 +45,14 @@
             shortened.appendChild(div);
         };
         if (req.readyState == 4) return;
+        if (url.value.indexOf("://") < 0) {
+            url.value = "http://" + url.value;
+        }
+        gobtn.className = "loading";
+        gobtn.setAttribute("disabled", "");
+        gobtn.innerHTML = gobtn.getAttribute("data-loading");
         req.send(JSON.stringify({
-            url: url.value,
+            url: url.value.trim(),
             expiry: oneTime.checked ? Date.now() : undefined,
             anonymize: anon.checked
         }));
