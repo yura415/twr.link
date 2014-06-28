@@ -31,7 +31,7 @@ Storage.prototype.getObject = function (key) {
     function renderShortened(url, origUrl) {
         var div = d.createElement("div");
         div.className = "success";
-        div.innerHTML = "<input type=\"text\" class=\"short-url\" title=\"" + url + "\" value=\"" + url + "\" onclick=\"select()\" /> - sends to - <input type=\"text\" class=\"short-url\" title=\"" + origUrl + "\" value=\"" + origUrl + "\" onclick=\"select()\" /> ";
+        div.innerHTML = "<input type=\"text\" readonly class=\"short-url\" title=\"" + url + "\" value=\"" + url + "\" onclick=\"select()\" /> - sends to - <input type=\"text\" class=\"short-url\" readonly title=\"" + origUrl + "\" value=\"" + origUrl + "\" onclick=\"select()\" /> ";
         return div;
     }
 
@@ -81,8 +81,7 @@ Storage.prototype.getObject = function (key) {
             gobtn.className = "";
             gobtn.innerHTML = gobtn.getAttribute("data-default");
             url.value = "";
-            var data = req.response
-                ;
+            var data = req.response;
             if (!data.error) {
                 arr.push([data.url, data.originalUrl]);
                 storage.put("shortened", arr);
