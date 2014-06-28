@@ -62,6 +62,14 @@ Storage.prototype.getObject = function (key) {
 
     gobtn.innerHTML = gobtn.getAttribute("data-default");
 
+    $(".btn-clear").onclick = function () {
+        arr.length = 0;
+        storage.put("shortened", arr);
+        while (shortened.firstChild) {
+            shortened.removeChild(shortened.firstChild);
+        }
+    };
+
     gobtn.onclick = form.onsubmit = function (e) {
         e.preventDefault();
         var req = xhr();

@@ -58,3 +58,11 @@ hr {
     background-color: white;
     background-color: rgba(255, 255, 255, 0.75);
 }
+
+.pull-right{
+    float:right;
+}
+
+.icon {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+}
