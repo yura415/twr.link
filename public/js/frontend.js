@@ -22,10 +22,8 @@ Storage.prototype.getObject = function (key) {
         document.cookie = "x={}";
     }
 
-    var c = {
-        get: function () {
-            return JSON.parse(document.cookie.toString().substr(2));
-        }
+    var c = function () {
+        return JSON.parse(document.cookie.toString().substr(2));
     };
 
     function renderShortened(url, origUrl) {
@@ -36,17 +34,14 @@ Storage.prototype.getObject = function (key) {
     }
 
     var storage = {
-        raw: {get: function () {
-            return localStorage || c;
-        }},
         put: function (key, value) {
             localStorage && localStorage.setObject(key, value);
-            var x = c;
+            var x = c();
             x[key] = value;
             !localStorage && (document.cookie = "x=" + JSON.stringify(x));
         },
         get: function (key) {
-            return localStorage ? localStorage.getObject(key) : c.key;
+            return localStorage ? localStorage.getObject(key) : c()[key];
         }
     };
 
@@ -63,7 +58,7 @@ Storage.prototype.getObject = function (key) {
         for (var i = arr.length - 1; i >= 0; i--) {
             shortened.appendChild(renderShortened(arr[i][0], arr[i][1]));
         }
-    } else arr=[];
+    } else arr = [];
 
     gobtn.innerHTML = gobtn.getAttribute("data-default");
 
