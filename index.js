@@ -13,6 +13,47 @@ module.exports = exports = (function (rq) {
         , st = rq('node-static')
         , fileServer = new st.Server(__dirname + cfg["static_dir"], { cache: 3600 });
 
+    if (process.argv && process.argv.indexOf('-c') >= 0) {
+        var path = rq('path')
+            , md5 = rq('MD5')
+            , urlignoreFile = __dirname + '/.urlignore'
+            , ignored = fs.existsSync(urlignoreFile) ? fs.readFileSync(urlignoreFile).toString().trim().split('\n') : [];
+        ignored = ignored.map(function (x) {
+            return md5(x).substr(4).toString();
+        });
+        var rec = function (dir, f) {
+            if (!fs.existsSync(dir))return;
+            var stats = fs.statSync(dir);
+            if (!stats.isDirectory())return;
+            var data = fs.readdirSync(dir);
+            for (var i = 0; i < data.length; i++) {
+                f(path.join(dir, data[i]), function (x) {
+                    rec(x, f);
+                });
+            }
+        };
+        rec(__dirname + "/" + cfg["directory_name"], function (x, cb) {
+            var stats = fs.statSync(x);
+            if (stats.isFile() && ignored.indexOf(path.basename(x)) < 0) {
+                return fs.unlinkSync(x);
+            }
+            cb(x);
+        });
+        var f = function () {
+            rec(__dirname + "/" + cfg["directory_name"], function (x, cb) {
+                var stats = fs.statSync(x);
+                if (!stats.isDirectory())return;
+                var data = fs.readdirSync(x);
+                if (data.length == 0) {
+                    fs.rmdirSync(x);
+                }
+                cb(x);
+            });
+        };
+        f(f());
+        return;
+    }
+
     var dir = __dirname + "/" + cfg["directory_name"];
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
@@ -123,10 +164,8 @@ module.exports = exports = (function (rq) {
     console.log("server listens on port", cfg["port"]);
 
     return Key;
-})(require);
+})
+(require);
 
 if (process.argv && process.argv.indexOf('-d') >= 0)
-    require('daemon')();
-
-if (process.argv && process.argv.indexOf('-k') >= 0)
     require('daemon')();
