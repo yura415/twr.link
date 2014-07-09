@@ -60,7 +60,7 @@ module.exports = (function (rq) {
                         }, function (err, key) {
                             return respond(200, {
                                 error: err,
-                                url: key ? ("http://" + cfg["hostname"] + "/" + key) : undefined,
+                                url: key ? ("http://twr.link/" + key) : undefined,
                                 originalUrl: url
                             }, res);
                         });
