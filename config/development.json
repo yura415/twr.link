@@ -2,9 +2,9 @@
     "directory_name": "urls",
     "url_maxlength": 256,
     "port": 3000,
-    "api_port": 3001,
-    "hostname": "localhost:3000",
+    "hostname": "127.0.0.1",
     "key_length": 5,
     "redirect-template": "<html><head><meta http-equiv=\"refresh\" content=\"1; URL=_%_\"></head></html>",
-    "static_dir": "/public"
+    "static_dir": "/public",
+    "cacheTime": 3600
 }
